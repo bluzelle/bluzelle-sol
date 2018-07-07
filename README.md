@@ -3,8 +3,6 @@ Solidity Contracts to use when connectting with Bluzelle Swarm
 
 *Under Construction*
 
-# eth-oracle
-
 Bluzelle-Ethereum integration for Apr. 28th hackathon, provided as a Solidity
 file that implements a wrapper around Oraclize.
 
