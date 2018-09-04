@@ -1,10 +1,11 @@
 # bluzelle-sol
 Solidity Contracts to use when connectting with Bluzelle Swarm
 
-*Under Construction*
+They are essentially files that implements a wrapper around Oraclize.
 
-Bluzelle-Ethereum integration for Apr. 28th hackathon, provided as a Solidity
-file that implements a wrapper around Oraclize.
+## Video
+
+https://www.youtube.com/watch?v=fc5bPlQKa88
 
 ## Importing
 
@@ -18,7 +19,7 @@ import "https://github.com/bluzelle/bluzelle-sol/contracts/bluzelle.sol";
 If you are using an environment which doesn't handle that for you, you may have
 to download bluzelle.sol directly as well as its dependancies:
 
-https://github.com/oraclize/ethereum-api/blob/master/oraclizeAPI_0.4.sol
+https://github.com/oraclize/ethereum-api/blob/master/oracloraclizeAPI_0.5.sol
 https://github.com/Arachnid/solidity-stringutils/blob/master/src/strings.sol
 
 ## Usage
@@ -43,7 +44,7 @@ read("a key");
 update("a key", "with a new value");
 remove("a key");
 ```
-Each DB operation will consume a small amount of ether to pay Oraclize's fee.
+Each DB operation will consume a small amount of ether to pay Oraclize's fee.  You may add a function such as retrieveETH() to reclaim overspent ethereum that Oraclize refunded to your smart contract. 
 
 All database operations are performed asynchronously (this is a fundamental
 constraint of running in Ethereum). If you want to act on the result of your
@@ -52,10 +53,10 @@ some or all of the following callback methods
 
 ```
 // When a read succeeds
-function readResult(string key, string result) internal { ... }
+function readResult(string key, string result, bool success) internal { ... }
 
 // When a read fails
-function readFailure(string key) internal {...}
+function readFailure(string key, bool success) internal {...}
 
 // When a create, update, remove is performed
 function createResponse(string key, bool success) internal {...}
@@ -63,7 +64,7 @@ function updateResponse(string key, bool success) internal {...}
 function removeResponse(string key, bool success) internal {...}
 ```
 
-The included file sample.sol shows an example smart contract that excercises
+The included file SampleDappPublic.sol shows an example smart contract that excercises
 this functionality.
 
 ## Caveats
@@ -76,4 +77,5 @@ Each database transaction requires a small fee for Oraclize ($0.01 usd worth),
 and the transaction will fail if the contract balance is too low.
 
 If you neglect to set a UUID before making a DB call, you will end up using the
-emptry string as your UUID. This may result in Bad Things.
+emptry string as your UUID. This may result in Bad Things.  
+You may use setUUID(string uuid) function to switch to the correct UUID.
